@@ -1,0 +1,15 @@
+Metadata-Version: 2.1
+Name: topsis-Algorithm
+Version: 2.0.0
+Summary: A Python package to get ranks of dataset using TOPSIS (UCS633).
+Home-page: https://github.com/Pulkitg64/TOPSIS-in-Python
+Author: Pulkit Gupta
+Author-email: pulkitgupta64@gmail.com
+License: UNKNOWN
+Description: # TOPSIS-in-Python
+         
+        Implementation of TOPSIS(Technique for Order of Preference by Similarity to Ideal Solution) in Python
+        Done For UCS633 (Data Analytics & Visualisation) by Pulkit Gupta (101703408)
+        
+Platform: UNKNOWN
+Description-Content-Type: text/markdown
