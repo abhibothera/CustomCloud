@@ -1,0 +1,16 @@
+MANIFEST.in
+README.md
+setup.py
+topsis_Algorithm.egg-info/PKG-INFO
+topsis_Algorithm.egg-info/SOURCES.txt
+topsis_Algorithm.egg-info/dependency_links.txt
+topsis_Algorithm.egg-info/entry_points.txt
+topsis_Algorithm.egg-info/requires.txt
+topsis_Algorithm.egg-info/top_level.txt
+topsis_algo/topsis.py
+topsis_algorithm.egg-info/PKG-INFO
+topsis_algorithm.egg-info/SOURCES.txt
+topsis_algorithm.egg-info/dependency_links.txt
+topsis_algorithm.egg-info/entry_points.txt
+topsis_algorithm.egg-info/requires.txt
+topsis_algorithm.egg-info/top_level.txt
