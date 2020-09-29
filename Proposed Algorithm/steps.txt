@@ -1,0 +1,11 @@
+cd 1. pip3/pip install virtualenv
+2. open cmd in the current folder where files are
+   Type in cmd: `virtualenv venv`
+3. cd venv
+4. cd Scripts
+5. type `activate`
+6. cd ..
+7. cd ..
+8. pip/pip3 install -r requirements.txt
+9. python/python3 index.py
+10. http://127.0.0.1:8050/
