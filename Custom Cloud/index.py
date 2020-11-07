@@ -16,6 +16,14 @@ import dash
 import base64
 import datetime
 import io
+import dash
+from dash.dependencies import Input, Output, State
+import dash_core_components as dcc
+import dash_html_components as html
+from flask import send_file
+import io
+import flask
+import pandas as pd
 import difflib
 import xlrd
 import numpy as np
@@ -40,7 +48,7 @@ def create_header(some_string):
 external_js = [
     # jQuery, DataTables, script to initialize DataTables
     'https://code.jquery.com/jquery-3.2.1.slim.min.js',
-    '//cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js',
+    'https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js',
     'https://codepen.io/jackdbd/pen/bROVgV.js',
 ]
 
@@ -49,8 +57,8 @@ external_css = [
     'https://codepen.io/chriddyp/pen/bWLwgP.css',
     'https://fonts.googleapis.com/css?family=Raleway',
     # 'https://fonts.googleapis.com/css?family=Lobster',
-    '//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css',
-    '//cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css',
+    'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css',
+    'https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css',
 ]
 
 
@@ -60,8 +68,8 @@ app = dash.Dash(__name__,    meta_tags=[
                 external_scripts=external_js,
                 external_stylesheets=external_css)
 
-app.scripts.config.serve_locally = True
-app.css.config.serve_locally = True
+#app.scripts.config.serve_locally = True
+#app.css.config.serve_locally = True
 app.title = 'CustomCloud'
 app.config['suppress_callback_exceptions'] = True
 
@@ -75,6 +83,20 @@ for css in external_css:
 
 app.layout = html.Div([
     create_header("CustomCloud"), 
+
+    html.Div(
+     
+  
+                children=[
+            html.H6("Step 1: Download the file and fill your preferences"),
+             html.A(html.Button('Download Excel'),
+    href='/download_excel/'),
+
+            html.H6("Step 2: Upload the input file to check the best Cloud Service provider based on your preferance.") , 
+                   
+ ], className="ten columns offset-by-two"
+    ),
+    
     html.Div([
     dcc.Upload(
         id='upload-data',
@@ -157,7 +179,24 @@ def update_output(list_of_contents, list_of_names, list_of_dates):
             zip(list_of_contents, list_of_names, list_of_dates)]
         return children
 
+@app.server.route('/download_excel/')
+def download_excel():
+    #Create DF
+    #d = {'col1': [1, 2], 'col2': [3, 4]}
+    df = pd.read_excel('sample_input.xlsx')
 
+    #Convert DF
+    strIO = io.BytesIO()
+    excel_writer = pd.ExcelWriter(strIO, engine="xlsxwriter")
+    df.to_excel(excel_writer, sheet_name="sheet1")
+    excel_writer.save()
+    excel_data = strIO.getvalue()
+    strIO.seek(0)
+
+    return send_file(strIO,
+                     attachment_filename='Sample.xlsx',
+                     as_attachment=True)
 
 if __name__ == '__main__':
     app.run_server(debug=True)
+

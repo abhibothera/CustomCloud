@@ -3,6 +3,7 @@ import warnings
 
 
 class topsis:
+    # class parameters
     a = None  #Matrix
     w = None  #Weight matrix
     r = None  #Normalisation matrix
@@ -103,6 +104,7 @@ class topsis:
                 x = i
         print('Choice', x + 1, 'is the best')
         return l
+        
     def calc(self):
         self.step2()
         self.step3()
