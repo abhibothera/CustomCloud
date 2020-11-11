@@ -9,7 +9,7 @@ import pandas as pd
 from mcdm import executors as exe
 
 #impact
-impact = [0,1,1,1,1,1,1,1,1]
+impact = [0,1,1,1,1,1,1,0,1]
 
 #Takes original data of data provider, result of MCDM Avg
 def predict(data,y):
