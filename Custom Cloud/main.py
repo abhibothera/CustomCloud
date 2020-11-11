@@ -144,7 +144,7 @@ def runMain(df):
 
 
   def avg(x,y,z):
-    r=pow((0.2*(x**2))+(0.3*(y**2))+(0.5*(z**2)),0.5)
+    r=pow((0.2*(x**2))+(0.3*(y**2))+(0.5*((1-z)**2)),0.5)
     return r
 
   # show results
