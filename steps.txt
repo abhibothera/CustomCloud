@@ -7,5 +7,5 @@ cd 1. pip3/pip install virtualenv
 6. cd ..
 7. cd ..
 8. pip/pip3 install -r requirements.txt
-9. python/python3 index.py
+9. python/python3 app.py
 10. http://127.0.0.1:8050/

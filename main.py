@@ -22,6 +22,16 @@ def predict(data,y):
   for i in range(len(prediction)):
     print(Y_test[i],prediction[i])
 
+def lstm(data,y):
+  scaler = MinMaxScaler(feature_range=(0,1))  
+  scaled_data = scaler.fit_transform(data)
+  X_train, X_test, Y_train, Y_test = train_test_split(scaled_data, y, test_size=0.2,shuffle=False)
+  clf = LSTM()
+  clf.fit(X_train, Y_train)
+  prediction = (clf.predict(X_test))
+  for i in range(len(prediction)):
+    print(Y_test[i],prediction[i])
+
 #Takes in dataframe
 def weights(df):
   y=[]
@@ -112,7 +122,8 @@ def runMain(df):
   topsis = exe.Topsis(**kwargs) # Topsis 
   vikor = exe.Vikor(**kwargs) # Vikor 
 
-
+  def LSTM():
+    return 1
 
 
   # show results
@@ -172,7 +183,8 @@ def runMain(df):
   #predict(out[0],result_avg)
 
   df.to_csv("output.csv")
-  df={"Node":["Node "+str(i+1) for i in range(len(y))],"Results":result_avg}
+  df={"Rank":[],"Cloud Service Provider":["CSP "+str(i+1) for i in range(len(y))],"Performance":result_avg}
   maximum=max(result_avg)
   node=result_avg.index(maximum)+1  
   return [df,node,maximum]
+

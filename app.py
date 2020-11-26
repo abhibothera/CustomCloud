@@ -31,9 +31,66 @@ from flask import send_file
 from main import runMain
 import dash_bootstrap_components as dbc
 app_name = 'Cloud Selection'
-server = Flask(app_name)
+
+external_scripts = [
+    'https://www.google-analytics.com/analytics.js',
+    'https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js',
+    'https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js',
+    {'src': 'https://cdn.polyfill.io/v2/polyfill.min.js'},
+    {
+        'src': 'https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.10/lodash.core.js',
+        'integrity': 'sha256-Qqd/EfdABZUcAxjOkMi8eGEivtdTkh3b65xCZL4qAQA=',
+        'crossorigin': 'anonymous'
+    }
+]
 
 
+
+
+# external CSS stylesheets
+external_stylesheets = [
+    'https://codepen.io/chriddyp/pen/bWLwgP.css',
+    'https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css',
+    'https://www.w3schools.com/w3css/4/w3.css',
+    {
+        'href': 'https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css',
+        'rel': 'stylesheet',
+        'integrity': 'sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO',
+        'crossorigin': 'anonymous'
+    },
+
+    {
+        'href': 'https://fonts.googleapis.com/css?family=Varela',
+        'rel': 'stylesheet',
+        'integrity': 'sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO',
+        'crossorigin': 'anonymous'
+    }
+
+    
+]
+
+app = dash.Dash(__name__,    meta_tags=[
+        {"name": "viewport", "content": "width=device-width, initial-scale=1"}
+    ],
+                external_scripts=external_scripts,
+                external_stylesheets=external_stylesheets)
+
+
+
+
+
+app.config['suppress_callback_exceptions']=True
+
+
+app.layout = html.Div([
+    dcc.Location(id='url', refresh=False),
+    html.Div(id='page-content')
+])
+
+PLOTLY_LOGO = "/"
+
+
+server = app.server
 
 def create_header(some_string):
     header_style = {
@@ -62,14 +119,7 @@ external_css = [
 ]
 
 
-app = dash.Dash(__name__,    meta_tags=[
-        {"name": "viewport", "content": "width=device-width, initial-scale=1"}
-    ],
-                external_scripts=external_js,
-                external_stylesheets=external_css)
 
-#app.scripts.config.serve_locally = True
-#app.css.config.serve_locally = True
 app.title = 'CustomCloud'
 app.config['suppress_callback_exceptions'] = True
 
@@ -134,7 +184,11 @@ def parse_contents(contents, filename, date):
             # Assume that the user uploaded an excel file
             df = pd.read_excel(io.BytesIO(decoded))
             x,node,performance=runMain(df)
+            x['Rank']=[i for i in range(1,len(x['Performance'])+1)]
             df=pd.DataFrame(x)
+            df=df.sort_values(by=['Performance'], ascending=False)
+            df['Rank']=[i for i in range(1,len(list(df['Performance']))+1)]
+            
     except Exception as e:
         print(e)
         return html.Div([
@@ -142,7 +196,7 @@ def parse_contents(contents, filename, date):
         ])
 
     return html.Div([
-        html.H5("Best Node is "+str(node)),
+        html.H5("Best Cloud Service Provider is "+str(node)),
         html.H6("Performance: "+str(performance)),
 
         dash_table.DataTable(
